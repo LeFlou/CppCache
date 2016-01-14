@@ -30,7 +30,7 @@ public:
         if (values_.size() == Size)
         {
             // Remove one element
-            auto itToRemove = std::cbegin(values_);
+            auto itToRemove = values_.cbegin();
             // TODO: erase oldest iterator from mapping_
             values_.erase(itToRemove);
         }
@@ -41,7 +41,7 @@ public:
         assert(values_.size() == mapping_.size());
         if (values_.size() == 1)
         {
-            // TODO: assign std::cbegin(mapping_) to oldest
+            // TODO: assign mapping_.cbegin() to oldest
         }
 
         return true;
@@ -50,7 +50,7 @@ public:
     _Ty& operator[](const _Kty& key)
     {
         auto it = mapping_.find(key);
-        if (it != std::cend(mapping_))
+        if (it != mapping_.cend())
         {
             return it->second;
         }
