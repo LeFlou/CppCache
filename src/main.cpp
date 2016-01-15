@@ -11,9 +11,11 @@ int main()
     myLRU.insert(std::make_pair<int, std::string>(3, "3"));
     myLRU.insert(std::make_pair<int, std::string>(4, "4"));
 
-    auto myString = myLRU[42];
+    auto& myString = myLRU[42];
 
     std::cout << myString << std::endl;
+
+    myString = "lol";
 
     return 0;
 }
