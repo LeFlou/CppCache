@@ -1,38 +1,45 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include <cassert>
 #include <unordered_map>
 
-template <typename _Kty, typename _Ty, size_t Size>
+template <typename _Kty, typename _Ty, size_t _Size>
 class LRUCache
 {
-    const size_t maxSize_ = Size;
-    std::vector<_Ty> values_;
+    static_assert(_Size > 0, "Size must be greater than zero.");
+
+    const size_t maxSize_ = _Size;
+    std::list<_Ty> values_;
 
 public:
     using value_iterator = decltype(*values_.begin());
     using value_type = std::pair<const _Kty, _Ty>;
+    using mapping_type = std::unordered_map<_Kty, value_iterator>;
+    using iterator_type = typename mapping_type::iterator;
 
 private:
-    std::unordered_map<_Kty, value_iterator> mapping_;
+    mapping_type mapping_;
+    iterator_type oldest_ {};
 
 public:
     LRUCache() = default;
     ~LRUCache() = default;
-    LRUCache(const LRUCache&) = default;
-    LRUCache& operator=(const LRUCache&) = default;
+    LRUCache(const LRUCache&) = delete;
+    LRUCache& operator=(const LRUCache&) = delete;
     LRUCache(LRUCache&&) = default;
     LRUCache& operator=(LRUCache&&) = default;
 
     bool insert(const value_type& value)
     {
-        if (values_.size() == Size)
+        if (values_.size() == _Size)
         {
-            // Remove one element
             auto itToRemove = values_.cbegin();
-            // TODO: erase oldest iterator from mapping_
             values_.erase(itToRemove);
+
+            assert(oldest_ != mapping_.end());
+            mapping_.erase(oldest_);
+            oldest_ = mapping_.begin();
         }
 
         values_.push_back(value.second);
@@ -41,7 +48,7 @@ public:
         assert(values_.size() == mapping_.size());
         if (values_.size() == 1)
         {
-            // TODO: assign mapping_.cbegin() to oldest
+            oldest_ = mapping_.begin();
         }
 
         return true;
@@ -56,7 +63,7 @@ public:
         }
 
         // TODO: remove dummy and brace initialize
-        static _Ty dummy {};
+        static _Ty dummy{};
         return dummy;
     }
 
