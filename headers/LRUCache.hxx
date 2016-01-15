@@ -7,8 +7,6 @@
 template <typename _Kty, typename _Ty, size_t _Size>
 class LRUCache
 {
-    static_assert(_Size > 0, "Size must be greater than zero.");
-
     const size_t maxSize_ = _Size;
     std::list<_Ty> values_;
 
@@ -32,6 +30,7 @@ public:
 
     bool insert(const value_type& value)
     {
+        static_assert(_Size > 0, "Size must be greater than zero.");
         if (values_.size() == _Size)
         {
             auto itToRemove = values_.cbegin();
