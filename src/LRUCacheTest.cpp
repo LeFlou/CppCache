@@ -1,6 +1,30 @@
 #include <gtest/gtest.h>
 #include "LRUCache.hxx"
 
+TEST(LRUCache, Size)
+{
+    LRUCache<int, std::string, 1> cache;
+    EXPECT_EQ(0, cache.size());
+
+    cache.insert(std::make_pair<int, std::string>(1, "1"));
+    EXPECT_EQ(1, cache.size());
+
+    cache.insert(std::make_pair<int, std::string>(1, "2"));
+    EXPECT_EQ(1, cache.size());
+}
+
+TEST(LRUCache, Empty)
+{
+    LRUCache<int, std::string, 1> cache;
+    EXPECT_TRUE(cache.empty());
+
+    cache.insert(std::make_pair<int, std::string>(1, "1"));
+    EXPECT_FALSE(cache.empty());
+
+    cache.insert(std::make_pair<int, std::string>(2, "2"));
+    EXPECT_FALSE(cache.empty());
+}
+
 TEST(LRUCache, InsertPair)
 {
     LRUCache<int, std::string, 3> cache;
