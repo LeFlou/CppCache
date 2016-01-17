@@ -30,7 +30,12 @@ TEST(LRUCache, BracketOperator)
 {
     LRUCache<int, std::string, 5> cache;
 
+    // Element does exist
     cache.insert(std::make_pair<int, std::string>(1, "1"));
     auto& value = cache[1];
     EXPECT_EQ(std::string("1"), value);
+
+    // Element that does not exist
+    auto& defaultValue = cache[42];
+    EXPECT_EQ(std::string(), defaultValue);
 }
