@@ -7,6 +7,10 @@ compiler:
 install:
 # Use g++4.9 and not 4.6 (C++11 missing)
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.8"; fi
+# Retrieve Google Test sources and compile it
+  - git clone https://github.com/google/googletest.git gtest
+  - cmake -Bgtest/googletest/build -Hgtest/googletest/
+  - cmake --build gtest/googletest/build --config Release
 
 addons:
   apt:
@@ -18,7 +22,7 @@ addons:
     - clang
 
 before_script:
-  - cmake .
+  - cmake -DGTEST_INCLUDE_DIR:string=gtest/googletest/include -DGTEST_LIBRARY:string=gtest/googletest/build/Release/gtest.lib -DGTEST_MAIN_LIBRARY:string=gtest/googletest/build/Release/gtest_main.lib
 
 script:
   - make
