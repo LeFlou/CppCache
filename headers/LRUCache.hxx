@@ -68,4 +68,9 @@ public:
     {
         return values_.size();
     }
+
+    bool empty() const
+    {
+        return values_.empty();
+    }
 };
