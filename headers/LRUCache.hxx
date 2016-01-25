@@ -60,6 +60,7 @@ public:
 
     size_t size() const
     {
+        assert(values_.size() == mapping_.size());
         return values_.size();
     }
 
