@@ -34,9 +34,18 @@ public:
     {
         static_assert(_Size > 0, "Size must be greater than zero.");
 
-        values_.push_back(value);
-        auto result = mapping_.insert({ value.first, --values_.end() });
+        // Trying to insert dummy value
+        auto result = mapping_.insert({ value.first, values_.end() });
+        if (result.second == false)
+        {
+            return std::make_pair(result.first, false);
+        }
 
+        // Replace by input value
+        values_.push_back(value);
+        result.first->second = --values_.end();
+
+        // Erase oldest value
         if (values_.size() > _Size)
         {
             const auto& oldestValue = values_.front();
