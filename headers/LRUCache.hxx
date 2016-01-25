@@ -11,7 +11,7 @@ public:
     using value_type = std::pair<const _Kty, _Ty>;
 
 private:
-    const size_t maxSize_ = _Size;
+    size_t maxSize_ = _Size;
     std::list<value_type> values_;
 
 public:
