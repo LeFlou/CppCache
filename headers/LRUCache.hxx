@@ -77,4 +77,10 @@ public:
     {
         return values_.empty();
     }
+
+    void clear()
+    {
+        values_.clear();
+        mapping_.clear();
+    }
 };
