@@ -30,6 +30,9 @@ public:
     LRUCache(LRUCache&&) = default;
     LRUCache& operator=(LRUCache&&) = default;
 
+    // ---------
+    // Modifiers
+    // ---------
     std::pair<mapping_iterator, bool> insert(const value_type& value)
     {
         static_assert(_Size > 0, "Size must be greater than zero.");
@@ -56,6 +59,15 @@ public:
         return std::make_pair(result.first, true);
     }
 
+    void clear()
+    {
+        values_.clear();
+        mapping_.clear();
+    }
+
+    // --------------
+    // Element access
+    // --------------
     _Ty& operator[](const _Kty& key)
     {
         auto it = mapping_.find(key);
@@ -67,21 +79,18 @@ public:
         return result.first->second->second;
     }
 
-    size_t size() const
-    {
-        assert(values_.size() == mapping_.size());
-        return values_.size();
-    }
-
+    // --------
+    // Capacity
+    // --------
     bool empty() const
     {
         return values_.empty();
     }
 
-    void clear()
+    size_t size() const
     {
-        values_.clear();
-        mapping_.clear();
+        assert(values_.size() == mapping_.size());
+        return values_.size();
     }
 
     // --------------
