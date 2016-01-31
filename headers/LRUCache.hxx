@@ -83,4 +83,12 @@ public:
         values_.clear();
         mapping_.clear();
     }
+
+    // --------------
+    // Element lookup
+    // --------------
+    size_t count(const _Kty& key) const
+    {
+        return mapping_.count(key);
+    }
 };
