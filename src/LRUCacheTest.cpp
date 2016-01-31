@@ -86,16 +86,39 @@ TEST(LRUCache, Clear)
     EXPECT_TRUE(cache.empty());
 }
 
-TEST(LRUCache, BracketOperator)
+TEST(LRUCache, BracketOperatorLValue)
 {
-    LRUCache<int, std::string, 5> cache;
+    LRUCache<std::string, std::string, 5> cache;
+
+    const auto firstKey = std::string("answer to life the universe and everything");
+    const auto firstValue = std::string("42");
+    const auto secondKey = std::string("where's north ?");
+
+    cache.insert(std::make_pair(firstKey, firstValue));
 
     // Element does exist
-    cache.insert(std::make_pair<int, std::string>(1, "1"));
-    auto& value = cache[1];
-    EXPECT_EQ(std::string("1"), value);
+    auto& value = cache[firstKey];
+    EXPECT_EQ(firstValue, value);
 
     // Element that does not exist
-    auto& defaultValue = cache[42];
+    auto& defaultValue = cache[secondKey];
+    EXPECT_EQ(std::string(), defaultValue);
+}
+
+TEST(LRUCache, BracketOperatorRValue)
+{
+    LRUCache<std::string, std::string, 5> cache;
+
+    const char* const firstKey = "answer to life the universe and everything";
+    const char* const firstValue = "42";
+    const char* const secondKey = "where's north ?";
+
+    // Element does exist
+    cache.insert(std::make_pair(std::string(firstKey), std::string(firstValue)));
+    auto& value = cache[std::string(firstKey)];
+    EXPECT_EQ(std::string(firstValue), value);
+
+    // Element that does not exist
+    auto& defaultValue = cache[std::string(secondKey)];
     EXPECT_EQ(std::string(), defaultValue);
 }

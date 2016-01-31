@@ -79,6 +79,17 @@ public:
         return result.first->second->second;
     }
 
+    _Ty& operator[](_Kty&& key)
+    {
+        auto it = mapping_.find(key);
+        if (it != mapping_.cend())
+        {
+            return it->second->second;
+        }
+        auto result = insert({ std::move(key), _Ty{} });
+        return result.first->second->second;
+    }
+
     // --------
     // Capacity
     // --------
