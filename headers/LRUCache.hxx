@@ -107,6 +107,11 @@ public:
     // --------------
     // Element lookup
     // --------------
+    bool exists(const _Kty& key) const
+    {
+        return mapping_.find(key) != mapping_.end();
+    }
+
     size_t count(const _Kty& key) const
     {
         return mapping_.count(key);

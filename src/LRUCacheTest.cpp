@@ -32,6 +32,24 @@ TEST(LRUCache, InsertPair)
     EXPECT_EQ(3, cache.size());
 }
 
+TEST(LRUCache, Exists)
+{
+    LRUCache<int, std::string, 2> cache;
+
+    const auto firstKey = 1;
+    const auto secondKey = 2;
+    const auto thirdKey = 3;
+    const auto firstValue = std::string("1");
+    const auto secondValue = std::string("2");
+
+    cache.insert(std::make_pair(firstKey, firstValue));
+    cache.insert(std::make_pair(secondKey, secondValue));
+
+    EXPECT_TRUE(cache.exists(firstKey));
+    EXPECT_TRUE(cache.exists(secondKey));
+    EXPECT_FALSE(cache.exists(thirdKey));
+}
+
 TEST(LRUCache, Count)
 {
     LRUCache<int, std::string, 2> cache;
