@@ -33,7 +33,7 @@ public:
     // ---------
     // Modifiers
     // ---------
-    std::pair<mapping_iterator, bool> insert(const value_type& value)
+    std::pair<value_iterator, bool> insert(const value_type& value)
     {
         static_assert(_Size > 0, "Size must be greater than zero.");
 
@@ -41,7 +41,7 @@ public:
         auto result = mapping_.insert({ value.first, values_.end() });
         if (result.second == false)
         {
-            return std::make_pair(result.first, false);
+            return std::make_pair(result.first->second, false);
         }
 
         // Replace by input value
@@ -56,7 +56,7 @@ public:
             values_.pop_front();
         }
 
-        return std::make_pair(result.first, true);
+        return std::make_pair(result.first->second, true);
     }
 
     void clear()
@@ -76,7 +76,7 @@ public:
             return it->second->second;
         }
         auto result = insert({ key , _Ty{} });
-        return result.first->second->second;
+        return result.first->second;
     }
 
     _Ty& operator[](_Kty&& key)
@@ -87,7 +87,7 @@ public:
             return it->second->second;
         }
         auto result = insert({ std::move(key), _Ty{} });
-        return result.first->second->second;
+        return result.first->second;
     }
 
     // --------
