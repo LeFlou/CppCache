@@ -6,33 +6,33 @@ TEST(LRUCache, InsertPair)
     LRUCache<int, std::string, 3> cache;
 
     auto pairResult = cache.insert(std::make_pair<int, std::string>(1, "1"));
-    EXPECT_EQ(std::string("1"), pairResult.first->second->second);
+    EXPECT_EQ(std::string("1"), pairResult.first->second);
     EXPECT_TRUE(pairResult.second);
     EXPECT_EQ(1, cache.size());
 
     pairResult = cache.insert(std::make_pair<int, std::string>(2, "2"));
-    EXPECT_EQ(std::string("2"), pairResult.first->second->second);
+    EXPECT_EQ(std::string("2"), pairResult.first->second);
     EXPECT_TRUE(pairResult.second);
 
     pairResult = cache.insert(std::make_pair<int, std::string>(3, "3"));
-    EXPECT_EQ(std::string("3"), pairResult.first->second->second);
+    EXPECT_EQ(std::string("3"), pairResult.first->second);
     EXPECT_TRUE(pairResult.second);
     EXPECT_EQ(3, cache.size());
 
     // Reaching limit
     pairResult = cache.insert(std::make_pair<int, std::string>(4, "4"));
-    EXPECT_EQ(std::string("4"), pairResult.first->second->second);
+    EXPECT_EQ(std::string("4"), pairResult.first->second);
     EXPECT_TRUE(pairResult.second);
     EXPECT_EQ(3, cache.size());
 
     // Trying to insert another value with previous key
     pairResult = cache.insert(std::make_pair<int, std::string>(4, "42"));
-    EXPECT_EQ(std::string("4"), pairResult.first->second->second);
+    EXPECT_EQ(std::string("4"), pairResult.first->second);
     EXPECT_FALSE(pairResult.second);
     EXPECT_EQ(3, cache.size());
 }
 
-TEST(LRUCache, Exists)
+TEST(LRUCache, Find)
 {
     LRUCache<int, std::string, 2> cache;
 
@@ -45,9 +45,19 @@ TEST(LRUCache, Exists)
     cache.insert(std::make_pair(firstKey, firstValue));
     cache.insert(std::make_pair(secondKey, secondValue));
 
-    EXPECT_TRUE(cache.exists(firstKey));
-    EXPECT_TRUE(cache.exists(secondKey));
-    EXPECT_FALSE(cache.exists(thirdKey));
+    auto firstResult = cache.find(firstKey);
+    auto secondResult = cache.find(secondKey);
+    auto thirdResult = cache.find(thirdKey);
+
+    EXPECT_TRUE(firstResult.second);
+    EXPECT_EQ(firstKey, firstResult.first->first);
+    EXPECT_EQ(firstValue, firstResult.first->second);
+
+    EXPECT_TRUE(secondResult.second);
+    EXPECT_EQ(secondKey, secondResult.first->first);
+    EXPECT_EQ(secondValue, secondResult.first->second);
+
+    EXPECT_FALSE(thirdResult.second);
 }
 
 TEST(LRUCache, Count)
