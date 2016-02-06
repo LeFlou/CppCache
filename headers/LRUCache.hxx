@@ -107,9 +107,14 @@ public:
     // --------------
     // Element lookup
     // --------------
-    bool exists(const _Kty& key) const
+    std::pair<value_iterator, bool> find(const _Kty& key)
     {
-        return mapping_.find(key) != mapping_.end();
+        auto mappingIt = mapping_.find(key);
+        if (mappingIt != mapping_.end())
+        {
+            return std::make_pair(mappingIt->second, true);
+        }
+        return std::make_pair(values_.end(), false);
     }
 
     size_t count(const _Kty& key) const
