@@ -32,6 +32,43 @@ TEST(LRUCache, InsertPair)
     EXPECT_EQ(3, cache.size());
 }
 
+TEST(LRUCache, Erase)
+{
+    LRUCache<std::string, double, 2> cache;
+
+    const auto firstKey = std::string("KeyOne");
+    const auto secondKey = std::string("KeyTwo");
+    const auto thirdKey = std::string("KeyThree");
+    const auto firstValue = 1.0;
+    const auto secondValue = 2.0;
+
+    EXPECT_FALSE(cache.erase(firstKey));
+
+    // Inserting first key/value
+    // Erasing (not yet inserted) second key
+    cache.insert({ firstKey, firstValue });
+    EXPECT_FALSE(cache.erase(secondKey));
+
+    // Inserting second key/value
+    // Erasing (present) first key
+    cache.insert({ secondKey, secondValue });
+    EXPECT_TRUE(cache.erase(firstKey));
+    EXPECT_EQ(1, cache.size());
+
+    // Erasing (not present) first key
+    EXPECT_FALSE(cache.erase(firstKey));
+    EXPECT_EQ(1, cache.size());
+
+    // Erasing (present) second key
+    EXPECT_TRUE(cache.erase(secondKey));
+    EXPECT_TRUE(cache.empty());
+
+    cache[thirdKey];
+    EXPECT_EQ(1, cache.size());
+    EXPECT_TRUE(cache.erase(thirdKey));
+    EXPECT_TRUE(cache.empty());
+}
+
 TEST(LRUCache, Find)
 {
     LRUCache<int, std::string, 2> cache;

@@ -59,6 +59,18 @@ public:
         return std::make_pair(result.first->second, true);
     }
 
+    bool erase(const _Kty& key)
+    {
+        const auto mappingIt = mapping_.find(key);
+        if (mappingIt != mapping_.end())
+        {
+            values_.erase(mappingIt->second);
+            mapping_.erase(mappingIt);
+            return true;
+        }
+        return false;
+    }
+
     void clear()
     {
         values_.clear();
