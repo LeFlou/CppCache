@@ -105,12 +105,12 @@ public:
     // --------
     // Capacity
     // --------
-    bool empty() const
+    bool empty() const noexcept
     {
         return values_.empty();
     }
 
-    size_t size() const
+    size_t size() const noexcept
     {
         assert(values_.size() == mapping_.size());
         return values_.size();
