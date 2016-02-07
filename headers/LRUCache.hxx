@@ -4,14 +4,14 @@
 #include <cassert>
 #include <unordered_map>
 
-template <typename _Kty, typename _Ty, size_t _Size>
+template <typename _Kty, typename _Ty>
 class LRUCache
 {
 public:
     using value_type = std::pair<const _Kty, _Ty>;
 
 private:
-    size_t maxSize_ = _Size;
+    int fixedCacheSize_;
     std::list<value_type> values_;
 
 public:
@@ -23,7 +23,14 @@ private:
     mapping_type mapping_;
 
 public:
-    LRUCache() = default;
+    LRUCache(const int cacheSize)
+        : fixedCacheSize_(cacheSize)
+    {
+        if (fixedCacheSize_ <= 0)
+        {
+            throw std::logic_error("LRUCache size must be greater than zero");
+        }
+    }
     ~LRUCache() = default;
     LRUCache(const LRUCache&) = delete;
     LRUCache& operator=(const LRUCache&) = delete;
@@ -35,8 +42,6 @@ public:
     // ---------
     std::pair<value_iterator, bool> insert(const value_type& value)
     {
-        static_assert(_Size > 0, "Size must be greater than zero.");
-
         // Trying to insert dummy value
         auto result = mapping_.insert({ value.first, values_.end() });
         if (result.second == false)
@@ -49,7 +54,7 @@ public:
         result.first->second = --values_.end();
 
         // Erase oldest value
-        if (values_.size() > _Size)
+        if (values_.size() > fixedCacheSize_)
         {
             const auto& oldestValue = values_.front();
             mapping_.erase(oldestValue.first);

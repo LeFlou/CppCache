@@ -3,7 +3,7 @@
 
 TEST(LRUCache, InsertPair)
 {
-    LRUCache<int, std::string, 3> cache;
+    LRUCache<int, std::string> cache(3);
 
     auto pairResult = cache.insert(std::make_pair<int, std::string>(1, "1"));
     EXPECT_EQ(std::string("1"), pairResult.first->second);
@@ -34,7 +34,7 @@ TEST(LRUCache, InsertPair)
 
 TEST(LRUCache, Erase)
 {
-    LRUCache<std::string, double, 2> cache;
+    LRUCache<std::string, double> cache(2);
 
     const auto firstKey = std::string("KeyOne");
     const auto secondKey = std::string("KeyTwo");
@@ -71,7 +71,7 @@ TEST(LRUCache, Erase)
 
 TEST(LRUCache, Find)
 {
-    LRUCache<int, std::string, 2> cache;
+    LRUCache<int, std::string> cache(2);
 
     const auto firstKey = 1;
     const auto secondKey = 2;
@@ -99,7 +99,7 @@ TEST(LRUCache, Find)
 
 TEST(LRUCache, Count)
 {
-    LRUCache<int, std::string, 2> cache;
+    LRUCache<int, std::string> cache(2);
 
     const auto firstKey = 1;
     const auto secondKey = 2;
@@ -117,7 +117,7 @@ TEST(LRUCache, Count)
 
 TEST(LRUCache, Size)
 {
-    LRUCache<int, std::string, 2> cache;
+    LRUCache<int, std::string> cache(2);
     EXPECT_EQ(0, cache.size());
 
     cache.insert(std::make_pair<int, std::string>(1, "1"));
@@ -129,7 +129,7 @@ TEST(LRUCache, Size)
 
 TEST(LRUCache, Empty)
 {
-    LRUCache<int, std::string, 1> cache;
+    LRUCache<int, std::string> cache(1);
     EXPECT_TRUE(cache.empty());
 
     cache.insert(std::make_pair<int, std::string>(1, "1"));
@@ -141,7 +141,7 @@ TEST(LRUCache, Empty)
 
 TEST(LRUCache, Clear)
 {
-    LRUCache<int, std::string, 2> cache;
+    LRUCache<int, std::string> cache(2);
 
     cache.insert(std::make_pair<int, std::string>(1, "1"));
     cache.insert(std::make_pair<int, std::string>(2, "2"));
@@ -153,7 +153,7 @@ TEST(LRUCache, Clear)
 
 TEST(LRUCache, BracketOperatorLValue)
 {
-    LRUCache<std::string, std::string, 5> cache;
+    LRUCache<std::string, std::string> cache(5);
 
     const auto firstKey = std::string("answer to life the universe and everything");
     const auto firstValue = std::string("42");
@@ -172,7 +172,7 @@ TEST(LRUCache, BracketOperatorLValue)
 
 TEST(LRUCache, BracketOperatorRValue)
 {
-    LRUCache<std::string, std::string, 5> cache;
+    LRUCache<std::string, std::string> cache(5);
 
     const char* const firstKey = "answer to life the universe and everything";
     const char* const firstValue = "42";
