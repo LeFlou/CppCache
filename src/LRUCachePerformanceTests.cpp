@@ -3,6 +3,7 @@
 #include <vector>
 #include <chrono>
 #include <iostream>
+#include <algorithm>
 #include "LRUCache.hxx"
 
 struct SimpleTimer
