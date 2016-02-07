@@ -21,10 +21,11 @@ endif()
 
 include_directories(headers)
 
-file(GLOB_RECURSE SOURCE_FILES headers/* src/*)
+file(GLOB_RECURSE PERFORMANCE_TEST_FILES headers/LRUCache.hxx src/LRUCachePerformanceTests.cpp)
+add_executable(LRUCachePerformanceTests ${PERFORMANCE_TEST_FILES})
 
-add_executable(CppCacheUnitTests ${SOURCE_FILES})
-target_link_libraries(CppCacheUnitTests ${GTEST_BOTH_LIBRARIES})
-
+file(GLOB_RECURSE UNIT_TESTS_FILES headers/LRUCache.hxx src/LRUCacheUnitTests.cpp)
+add_executable(LRUCacheUnitTests ${UNIT_TESTS_FILES})
+target_link_libraries(LRUCacheUnitTests ${GTEST_BOTH_LIBRARIES})
 enable_testing()
-add_test(NAME CppCacheUnitTests COMMAND CppCacheUnitTests)
+add_test(NAME LRUCacheUnitTests COMMAND LRUCacheUnitTests)
