@@ -78,23 +78,28 @@ TEST(LRUCache, Find)
     const auto thirdKey = 3;
     const auto firstValue = std::string("1");
     const auto secondValue = std::string("2");
+    const auto thirdValue = std::string("3");
 
     cache.insert(std::make_pair(firstKey, firstValue));
-    cache.insert(std::make_pair(secondKey, secondValue));
+    cache.insert(std::make_pair(secondKey, secondValue)); // firstKey is now oldest element
 
-    auto firstResult = cache.find(firstKey);
-    auto secondResult = cache.find(secondKey);
     auto thirdResult = cache.find(thirdKey);
+    EXPECT_FALSE(thirdResult.second);
 
-    EXPECT_TRUE(firstResult.second);
-    EXPECT_EQ(firstKey, firstResult.first->first);
-    EXPECT_EQ(firstValue, firstResult.first->second);
-
+    auto secondResult = cache.find(secondKey); // firstKey remains oldest element
     EXPECT_TRUE(secondResult.second);
     EXPECT_EQ(secondKey, secondResult.first->first);
     EXPECT_EQ(secondValue, secondResult.first->second);
 
-    EXPECT_FALSE(thirdResult.second);
+    auto firstResult = cache.find(firstKey); // secondKey is now oldest element
+    EXPECT_TRUE(firstResult.second);
+    EXPECT_EQ(firstKey, firstResult.first->first);
+    EXPECT_EQ(firstValue, firstResult.first->second);
+
+    cache.insert(std::make_pair(thirdKey, thirdValue)); // secondKey should be erased
+    
+    secondResult = cache.find(secondKey);
+    EXPECT_FALSE(secondResult.second);
 }
 
 TEST(LRUCache, Count)
