@@ -129,6 +129,7 @@ public:
         auto mappingIt = mapping_.find(key);
         if (mappingIt != mapping_.end())
         {
+            values_.splice(values_.end(), values_, mappingIt->second);
             return std::make_pair(mappingIt->second, true);
         }
         return std::make_pair(values_.end(), false);
