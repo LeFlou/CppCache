@@ -76,7 +76,7 @@ public:
         return false;
     }
 
-    void clear()
+    void clear() noexcept
     {
         values_.clear();
         mapping_.clear();
