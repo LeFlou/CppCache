@@ -11,7 +11,7 @@ public:
     using value_type = std::pair<const _Kty, _Ty>;
 
 private:
-    int fixedCacheSize_;
+    size_t cacheSize_;
     std::list<value_type> values_;
 
 public:
@@ -23,10 +23,10 @@ private:
     mapping_type mapping_;
 
 public:
-    LRUCache(const int cacheSize)
-        : fixedCacheSize_(cacheSize)
+    LRUCache(const size_t cacheSize)
+        : cacheSize_(cacheSize)
     {
-        if (fixedCacheSize_ <= 0)
+        if (cacheSize_ == 0)
         {
             throw std::logic_error("LRUCache size must be greater than zero");
         }
@@ -54,7 +54,7 @@ public:
         result.first->second = --values_.end();
 
         // Erase oldest value
-        if (values_.size() > fixedCacheSize_)
+        if (values_.size() > cacheSize_)
         {
             const auto& oldestValue = values_.front();
             mapping_.erase(oldestValue.first);
