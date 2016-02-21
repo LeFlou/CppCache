@@ -90,7 +90,6 @@ void FindSpeedTest(const int elements, const int cacheSize)
         for (int i = 0; i < elements; ++i)
         {
             volatile auto it = container1.find(i);
-            //container1.find(i);
         }
     }
 
@@ -101,8 +100,7 @@ void FindSpeedTest(const int elements, const int cacheSize)
         SimpleTimer insertTimer;
         for (int i = 0; i < elements; ++i)
         {
-            //volatile auto it = container2.find(i);
-            container2.find(i);
+            volatile auto it = container2.find(i);
         }
     }
 
@@ -113,8 +111,7 @@ void FindSpeedTest(const int elements, const int cacheSize)
         SimpleTimer insertTimer;
         for (int i = 0; i < elements; ++i)
         {
-            //volatile auto it = container3.find(i);
-            container3.find(i);
+            volatile auto it = container3.find(i);
         }
     }
 
