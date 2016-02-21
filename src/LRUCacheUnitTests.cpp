@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "LRUCache.hxx"
 
-TEST(LRUCache, InsertPair)
+TEST(Insert, Pair)
 {
     LRUCache<int, std::string> cache(3);
 
@@ -32,7 +32,7 @@ TEST(LRUCache, InsertPair)
     EXPECT_EQ(3, cache.size());
 }
 
-TEST(LRUCache, Erase)
+TEST(Erase, Erase)
 {
     LRUCache<std::string, double> cache(2);
 
@@ -69,7 +69,7 @@ TEST(LRUCache, Erase)
     EXPECT_TRUE(cache.empty());
 }
 
-TEST(LRUCache, Find)
+TEST(Find, Find)
 {
     LRUCache<int, std::string> cache(2);
 
@@ -102,7 +102,7 @@ TEST(LRUCache, Find)
     EXPECT_FALSE(secondResult.second);
 }
 
-TEST(LRUCache, Count)
+TEST(Count, Count)
 {
     LRUCache<int, std::string> cache(2);
 
@@ -120,7 +120,7 @@ TEST(LRUCache, Count)
     EXPECT_EQ(0, cache.count(thirdKey));
 }
 
-TEST(LRUCache, Size)
+TEST(Size, Size)
 {
     LRUCache<int, std::string> cache(2);
     EXPECT_EQ(0, cache.size());
@@ -132,7 +132,7 @@ TEST(LRUCache, Size)
     EXPECT_EQ(2, cache.size());
 }
 
-TEST(LRUCache, Empty)
+TEST(Empty, Empty)
 {
     LRUCache<int, std::string> cache(1);
     EXPECT_TRUE(cache.empty());
@@ -144,7 +144,7 @@ TEST(LRUCache, Empty)
     EXPECT_FALSE(cache.empty());
 }
 
-TEST(LRUCache, Clear)
+TEST(Clear, Clear)
 {
     LRUCache<int, std::string> cache(2);
 
