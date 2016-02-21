@@ -156,7 +156,71 @@ TEST(LRUCache, Clear)
     EXPECT_TRUE(cache.empty());
 }
 
-TEST(LRUCache, BracketOperatorLValue)
+TEST(Resize, Enlarge)
+{
+    LRUCache<int, std::string> cache(1);
+
+    const auto firstKey = 1;
+    const auto secondKey = 2;
+    const auto firstValue = std::string("1");
+    const auto secondValue = std::string("2");
+
+    cache.insert(std::make_pair(firstKey, firstValue));
+    cache.resize(2);
+    cache.insert(std::make_pair(secondKey, secondValue));
+
+    EXPECT_TRUE(cache.find(firstKey).second);
+    EXPECT_TRUE(cache.find(secondKey).second);
+}
+
+TEST(Resize, SameSize)
+{
+    LRUCache<int, std::string> cache(2);
+
+    const auto firstKey = 1;
+    const auto secondKey = 2;
+    const auto firstValue = std::string("1");
+    const auto secondValue = std::string("2");
+
+    cache.insert(std::make_pair(firstKey, firstValue));
+    cache.insert(std::make_pair(secondKey, secondValue));
+    cache.resize(2);
+
+    EXPECT_TRUE(cache.find(firstKey).second);
+    EXPECT_TRUE(cache.find(secondKey).second);
+}
+
+TEST(Resize, Shrink)
+{
+    LRUCache<int, std::string> cache(5);
+
+    const auto firstKey = 1;
+    const auto secondKey = 2;
+    const auto thirdKey = 3;
+    const auto fourthKey = 4;
+    const auto fifthKey = 5;
+    const auto firstValue = std::string("1");
+    const auto secondValue = std::string("2");
+    const auto thirdValue = std::string("3");
+    const auto fourthValue = std::string("4");
+    const auto fifthValue = std::string("5");
+
+    cache.insert(std::make_pair(firstKey, firstValue));
+    cache.insert(std::make_pair(secondKey, secondValue));
+    cache.insert(std::make_pair(thirdKey, thirdValue));
+    cache.insert(std::make_pair(fourthKey, fourthValue));
+    cache.insert(std::make_pair(fifthKey, fifthValue));
+
+    cache.resize(2);
+
+    EXPECT_FALSE(cache.find(firstKey).second);
+    EXPECT_FALSE(cache.find(secondKey).second);
+    EXPECT_FALSE(cache.find(thirdKey).second);
+    EXPECT_TRUE(cache.find(fourthKey).second);
+    EXPECT_TRUE(cache.find(fifthKey).second);
+}
+
+TEST(BracketOperator, LValue)
 {
     LRUCache<std::string, std::string> cache(5);
 
@@ -175,7 +239,7 @@ TEST(LRUCache, BracketOperatorLValue)
     EXPECT_EQ(std::string(), defaultValue);
 }
 
-TEST(LRUCache, BracketOperatorRValue)
+TEST(BracketOperator, RValue)
 {
     LRUCache<std::string, std::string> cache(5);
 

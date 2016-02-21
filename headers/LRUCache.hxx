@@ -76,6 +76,27 @@ public:
         return false;
     }
 
+    void resize(const size_t size)
+    {
+        if (size == 0)
+        {
+            throw std::logic_error("LRUCache size must be greater than zero");
+        }
+
+        if (size < cacheSize_)
+        {
+            const size_t elementsToDelete = cacheSize_ - size;
+            for (size_t elementIndex = 0; elementIndex < elementsToDelete && values_.empty() == false; ++elementIndex)
+            {
+                const auto& oldestValue = values_.front();
+                mapping_.erase(oldestValue.first);
+                values_.pop_front();
+            }
+        }
+
+        cacheSize_ = size;
+    }
+
     void clear() noexcept
     {
         values_.clear();
